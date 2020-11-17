@@ -18,7 +18,7 @@ class CreateMembersTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->timestamps();
-            $table->string('position');
+            
         });
     }
 
@@ -30,7 +30,7 @@ class CreateMembersTable extends Migration
     public function down()
     {
         Schema::table('members', function($table) {
-            $table->dropColumn('position');
+            $table->dropColumn();
         });
     }
 }

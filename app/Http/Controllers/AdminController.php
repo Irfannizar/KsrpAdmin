@@ -86,7 +86,10 @@ class AdminController extends Controller
 
     public function admin()
     {
-        return view('admin_main');
+
+        $Executive = Member::where('executive', 'yes')->count();
+        $notExecutive = Member::where('executive', 'no')->count();
+        return view('admin_main',compact('Executive','notExecutive'));
     }
 
     public function event()
