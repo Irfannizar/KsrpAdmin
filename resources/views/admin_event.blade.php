@@ -26,7 +26,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gray-900 sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-info sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.main') }}">
@@ -162,9 +162,9 @@
 
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
+<div class="card shadow mb-4 border-left-success">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Event Listing</h6>
+    <h6 class="m-0 font-weight-bold text-success">Event Listing</h6>
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -191,7 +191,7 @@
                           <td>
                           <form method = "GET" 
                         action = "{{ route('event.show', $event->id) }}">
-                        <button class = "btn btn-secondary">
+                        <button class = "btn btn-success">
                             Details
                       
                         </button>
@@ -207,6 +207,8 @@
 
 </div>
 <!-- /.container-fluid -->
+
+
 
 </div>
 <!-- End of Main Content -->f
