@@ -230,12 +230,13 @@
                 <br>
                 <br>
                 
+                <form action="{{url('logout')}}" method="GET" id="logForm" class="user" >
                 <h1 class="h3 mb-1 text-gray-800">KSRP Sekretariat</h1>
                     <p class="mb-2">Name : Muhammad Irfan Nizar bin Anuar</p>
                     <p class="mb-2">Position : Intern Staff</p>
                     <p class="mb-2">Duration : 1 September - 15 January</p>
                     <p class="mb-2">Location : KSRP Concourse Level, Tower 1 KLCC Tower, Kuala Lumpur</p>
-                    <button data-toggle="modal" data-target="#logoutModal" type="" class="btn btn-warning pull-right">Logout</button>
+                    <button type="submit" class="btn btn-warning pull-right">Logout</button>
                     <div class="clearfix"></div>
 
                     

@@ -150,7 +150,7 @@
             <div>
             <p>Click the link below to register our event!!</p>
               <a style="color:red" class = "btn aqua-gradient btn-rounded btn-sm my-0"
-                href ="http://ksrpadmin.test/register">REGISTER HERE<a/> 
+                href ="https://ipay88.ariffazmi.me/pay">REGISTER HERE<a/> 
 
             </div>
             <br>
