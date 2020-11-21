@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator,Redirect,Response;
 Use App\User;
+use App\Event;
+use App\Member;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Session;
+
  
 class AuthController extends Controller
 {
@@ -29,8 +32,8 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return view('admin_main');
-            return redirect()->intended("admin_main");
+            
+            return redirect()->intended("admin");
         }
         return Redirect::to("login")->withSuccess('Oppes! You have entered invalid credentials');
     }
