@@ -249,7 +249,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Budget Allocate</div>
-                      <div class="h5 mb-0  text-gray-600">{{$budget -> budget_allocate}}</div>
+                      <div class="h5 mb-0  text-gray-600">{{$budget}}</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-money-check fa-3x text-warning"></i>
@@ -312,15 +312,19 @@
                 <img class="rounded-circle shadow " style="width:70px;height:70px;" src="/img/test.jpg">
                 <br>
                 <br>
-                
+                @auth
                 <form action="{{url('logout')}}" method="GET" id="logForm" class="user" >
-                <h1 class="h3 mb-1 text-gray-800">KSRP Sekretariat</h1>
+                <h1 class="h3 mb-1 text-gray-800">{{Auth::user()->name}}</h1>
+                    <!--
                     <p class="mb-2">Name : Muhammad Irfan Nizar bin Anuar</p>
                     <p class="mb-2">Position : Intern Staff</p>
                     <p class="mb-2">Duration : 1 September - 15 January</p>
                     <p class="mb-2">Location : KSRP Concourse Level, Tower 1 KLCC Tower, Kuala Lumpur</p>
+                    -->
                     <button type="submit" class="btn btn-warning pull-right">Logout</button>
                     <div class="clearfix"></div>
+                    @endauth
+                    
 
                     
                   

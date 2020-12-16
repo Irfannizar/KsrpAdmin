@@ -354,7 +354,7 @@
     <h6 class="m-0 font-weight-bold text-primary">Event</h6>
   </div>
   <div class="card-body">
-  <form action="{{route('store.event')}}" method = "POST">
+  <form action="{{route('store.event')}}" method = "POST" enctype="multipart/form-data">
   @csrf
  
   <!-- Default input -->
@@ -365,7 +365,7 @@
 
   <div class="form-group">
     <label>Date</label>
-    <input type="text" class="form-control" name = "date" required>
+    <input type="date" class="form-control" name = "date" required>
   </div>
 
   <div class="form-group">

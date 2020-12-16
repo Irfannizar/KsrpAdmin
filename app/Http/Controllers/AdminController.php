@@ -7,6 +7,7 @@ use App\Event;
 use App\Member;
 use App\User;
 use DB;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -92,9 +93,11 @@ class AdminController extends Controller
         $TotalMember = Member::all() ->count();
         $Executive = Member::where('executive', 'yes')->count();
         $notExecutive = Member::where('executive', 'no')->count();
-        $budget = User::where('budget_allocate', '=', '700000')->first();
+        //$budget = User::where('budget_allocate', '=', '700000')->first();
+        $budget = Auth::user()->budget_allocate;
+        //return $budget;
         //DB::table('events')->count('budget');
-        $duit = $budget -> budget_allocate;
+        $duit = $budget;
         $total = DB::table('events')->sum('budgets');
         $balance = $duit - $total;
         return view('admin_main',compact('Executive','notExecutive','TotalMember','budget','balance'));
@@ -104,8 +107,9 @@ class AdminController extends Controller
     {
         //return view('admin_event');
 
-        $events = Event::paginate(5);
+        $events = Event::paginate(9);
         return view('admin_event' , compact('events'));
+        //$events = Event::where('region', Auth::user()->region) ->paginate(5);
     }
 
     public function member()
@@ -125,30 +129,22 @@ class AdminController extends Controller
     public function store_event(Request $request)
     {
       
-        
+        //return $request;
         $event = new Event();
         $event -> title=$request -> get('title');
         $event -> date=$request -> get('date');
         $event -> location=$request -> get('location');
         $event -> fee=$request -> get('fee');
-        
-        if ($request->hasFile('image')){
-            if ($request->file(image)->isValid()){
-                $validated = $request->validate([
-                    'name' => 'string|max:40',
-                    'image' => 'mimes:jpeg,png|max:1014',
-                ]);
-                $extension = $request->storeAs('/public', 
-                $validated['name'].".".$extension);
-                $url = 
-                Storage::url($validated['name'].".".$extension);
-                $file = File::create([
-                    'name' => $validated['name'],
-                    'url' => $url,
-                ]);
+
+            if( $request->hasFile( 'image' ) ) {
+                info('hasimage'); //debug
+                $destinationPath = storage_path( 'app/public/poster' );
+                $file = $request->image;
+                $fileName = time() . '.'.$file->clientExtension();
+                $file->move( $destinationPath, $fileName );
+
+                $event->poster = $destinationPath.'/' . $fileName;
             }
-            abortt(500, 'could not upload image :(');
-        }
 
         $event -> limit_register=$request -> get('limit_register');
         $event -> budgets=$request -> get('budgets');
