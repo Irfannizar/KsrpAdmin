@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Str;
-
+    define('RDS_HOSTNAME', (isset($_SERVER['RDS_HOSTNAME'])) ? $_SERVER['RDS_HOSTNAME'] : null);
+    define('RDS_USERNAME', (isset($_SERVER['RDS_USERNAME'])) ? $_SERVER['RDS_USERNAME'] : null);
+    define('RDS_PASSWORD', (isset($_SERVER['RDS_PASSWORD'])) ? $_SERVER['RDS_PASSWORD'] : null);
+    define('RDS_DB_NAME', (isset($_SERVER['RDS_DB_NAME'])) ? $_SERVER['RDS_DB_NAME'] : null);
 return [
 
     /*
@@ -43,6 +46,28 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        //production
+    //    'mysql' => [
+    //         'driver' => 'mysql',
+    //         'url' => env('DATABASE_URL'),
+    //         'host' => (RDS_HOSTNAME) ? RDS_HOSTNAME : env('DB_HOST', 'aa1tbuzjvaqixmi.cgcaz96daazk.ap-southeast-1.rds.amazonaws.com'),
+    //         'port' => env('DB_PORT', '3306'),
+    //         'database' => (RDS_DB_NAME) ? RDS_DB_NAME : env('DB_DATABASE', 'forge'),
+    //         'username' => (RDS_USERNAME) ? RDS_USERNAME : env('DB_USERNAME', 'forge'),
+    //         'password' => (RDS_PASSWORD) ? RDS_PASSWORD : env('DB_PASSWORD', ''),
+    //         'unix_socket' => env('DB_SOCKET', ''),
+    //         'charset' => 'utf8mb4',
+    //         'collation' => 'utf8mb4_unicode_ci',
+    //         'prefix' => '',
+    //         'prefix_indexes' => true,
+    //         'strict' => false,
+    //         'engine' => null,
+    //         'options' => extension_loaded('pdo_mysql') ? array_filter([
+    //             PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+    //         ]) : [],
+    //     ],
+
+        //testing
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

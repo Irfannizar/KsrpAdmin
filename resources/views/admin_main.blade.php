@@ -26,7 +26,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-info sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gray-900 sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.main') }}">
@@ -62,7 +62,7 @@
         <div id="collapseEvent" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">select</h6>
-            <a class="collapse-item" href="{{ route('admin.event') }}">Data Table</a>
+            <a class="collapse-item" href="{{ route('admin.event') }}">Event Listing</a>
             <a class="collapse-item" href="{{ route('create.event') }}">Create Event</a>
           </div>
         </div>
@@ -82,8 +82,55 @@
         </div>
       </li>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+                    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-receipt"></i>
+                    <span>Payment</span>
+                    </a>
+                    <div id="collapsePayment" class="collapse" aria-labelledby="paymentUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">select</h6>
+                            <a class="collapse-item" href="{{ route('payment.lists') }}">All Status</a>
+                        </div>
+                    </div>
+                </li>
+
+       <!-- Divider -->
+       <hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+  ADD ON
+</div>
+
+<li class="nav-item">
+              <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseUtilities">
+              <i class="fas fa-users"></i>
+              <span>Members</span>
+              </a>
+              <div id="collapseMember" class="collapse" aria-labelledby="membertUtilities" data-parent="#accordionSidebar">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                      <h6 class="collapse-header">select</h6>
+                      <a class="collapse-item" href="{{ route('admin.member') }}">Members List</a>
+                  </div>
+              </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              
+              <i class="fas fa-chart-bar"></i>
+              <span>Chart</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              
+              <i class="fas fa-calendar-week"></i>
+              <span>Calendar</span></a>
+          </li>
+
 
 
 
@@ -156,14 +203,14 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            
           </div>
 
           <div class="row">
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -180,7 +227,7 @@
 
             <!-- Earnings (Annual) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
+              <div class="card shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -194,7 +241,43 @@
                 </div>
               </div>
             </div>
-</div>
+
+            <!-- Earnings (Annual) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Budget Allocate</div>
+                      <div class="h5 mb-0  text-gray-600">{{$budget -> budget_allocate}}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-money-check fa-3x text-warning"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+             <!-- Earnings (Annual) Card Example -->
+             <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Budget Balance</div>
+                      <div class="h5 mb-0  text-gray-600">{{$balance}}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-wallet fa-3x text-danger"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
             <!--
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
@@ -219,7 +302,7 @@
             <div class="col-lg-6">
 
 
-            <div class="card border-left-success shadow">
+            <div class="card shadow">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Admin Details</h6>
                 </div>

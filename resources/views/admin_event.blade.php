@@ -26,7 +26,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-info sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gray-900 sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.main') }}">
@@ -55,7 +55,7 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvent" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-shapes"></i>
           <span>Events</span>
@@ -83,8 +83,54 @@
         </div>
       </li>
 
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+                    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-receipt"></i>
+                    <span>Payment</span>
+                    </a>
+                    <div id="collapsePayment" class="collapse" aria-labelledby="paymentUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">select</h6>
+                            <a class="collapse-item" href="{{ route('payment.lists') }}">All Status</a>
+                        </div>
+                    </div>
+                </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        ADD ON
+      </div>
+
+      <li class="nav-item">
+                    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                    </a>
+                    <div id="collapseMember" class="collapse" aria-labelledby="membertUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">select</h6>
+                            <a class="collapse-item" href="{{ route('admin.member') }}">Members List</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="">
+                    
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Chart</span></a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="">
+                    
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Calendar</span></a>
+                </li>
 
 
 
@@ -113,11 +159,11 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form method = "GET" action = "{{route('event.search')}}" enctype="multipart/form-data" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <input name = "keyword" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>
@@ -133,12 +179,13 @@
                 <i class="fas fa-search fa-fw"></i>
               </a>
               <!-- Dropdown - Messages -->
+              <form class = "form-inline" method = "GET" action = "{{route('event.search')}}" enctype="multipart/form-data">
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
+                      <button class="btn btn-primary" type="submit">
                         <i class="fas fa-search fa-sm"></i>
                       </button>
                     </div>
@@ -162,45 +209,53 @@
 
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4 border-left-success">
+<div class="card shadow mb-4 ">
   <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-success">Event Listing</h6>
   </div>
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-        <thead>
+       
+      <thead>
           <tr>
             
             <th>Title</th>
             <th>Date</th>
-            <th>Location</th>
-            <th>Fee</th>
+            
+            <th>Inventory</th>
             <th>Action</th>
             
           </tr>
         </thead>
-       
+        
         <tbody>
+      
         @foreach($events as $event)
             <tr>
                           <td>{{ $event->title }}</td>
                           <td>{{ $event->date }}</td>
-                          <td>{{ $event->location }}</td>
-                          <td>{{ $event->fee }}</td>
+                          
+                          <td>{{ $event->limit_register }}</td>
                           <td>
-                          <form method = "GET" 
-                        action = "{{ route('event.show', $event->id) }}">
-                        <button class = "btn btn-success">
-                            Details
-                      
-                        </button>
+                            
+                         
+                          <form method = "GET"  
+                          action = "{{ route('event.show', $event->id) }}">
+                         @if ($event->limit_register==0)
+                         <h6>Out of Stock</h6>
+                         @else
+                          <button class = "btn btn-primary">Details</button>
+                         @endif
                         </form>
                           </td>
             </tr>
         @endforeach
         </tbody>
+       
       </table>
+      {!! $events->links() !!}
+     
     </div>
   </div>
 </div>

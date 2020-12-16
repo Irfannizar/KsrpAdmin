@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
+use App\PaymentTransaction;
+use Cknow\Money\Money;
+use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -12,39 +16,177 @@ class PaymentController extends Controller
 
 	public function __construct()
 	{
-		parent::__construct();
-		$this->_merchantCode = 'xxxxxx'; //MerchantCode confidential
-		$this->_merchantKey = 'xxxxxxxxx'; //MerchantKey confidential
+		$this->merchant_key = env("IPAY_MERCHANT_KEY");
+		$this->merchant_code = env("IPAY_MERCHANT_CODE");
 	}
 
 	public function index()
 	{
-		$request = new IPay88\Payment\Request($this->_merchantKey);
-		$this->_data = array(
-			'merchantCode' => $request->setMerchantCode($this->_merchantCode),
-			'paymentId' =>  $request->setPaymentId(1),
-			'refNo' => $request->setRefNo('EXAMPLE0001'),
-			'amount' => $request->setAmount('0.50'),
-			'currency' => $request->setCurrency('MYR'),
-			'prodDesc' => $request->setProdDesc('Testing'),
-			'userName' => $request->setUserName('Your name'),
-			'userEmail' => $request->setUserEmail('email@example.com'),
-			'userContact' => $request->setUserContact('0123456789'),
-			'remark' => $request->setRemark('Some remarks here..'),
-			'lang' => $request->setLang('UTF-8'),
-			'signature' => $request->getSignature(),
-			'responseUrl' => $request->setResponseUrl('http://example.com/response'),
-			'backendUrl' => $request->setBackendUrl('http://example.com/backend')
-			);
+		try {
+			
+			$payments = PaymentTransaction::with('event')
+			->get();
 
-		IPay88\Payment\Request::make($this->_merchantKey, $this->_data);
+			$payments->map(function($data) {
+				$data->status = PaymentTransaction::getDisplayPaymentStatus($data->status);
+				$data->amount = Money::MYR($data->amount)->formatByDecimal();
+				return $data;
+			});
+			// return $payments;
+
+			return view('payment.index',compact('payments'));	
+		} catch (Exception $e) {
+			
+			return $e->getMessage();
+		}
 	}
-	
-	public function response()
-	{	
-		$response = (new IPay88\Payment\Response)->init($this->_merchantCode);
-		echo "<pre>";
-		print_r($response);
+
+	public function payment_search(Request $request)
+    {
+        
+        if($request->get('keyword') !=null)
+        {
+        $keyword = $request->get('keyword');
+        $payments = PaymentTransaction::where('name', 'LIKE' , '%'.$keyword. '%') ->get();
+        return view('payment.index', compact('payments'));
+        }
+        else
+        {
+            $payments = PaymentTransaction::all();
+            return view('payment.index', compact('payments'));
+
+        }
+
+        
+    }
+
+	public function create($id,Request $request)
+	{
+		try {
+			
+			$event = Event::where('id',$id)
+			->where('limit_register','>',0)
+			->firstOrFail();
+
+			$event = Event::findOrFail($id);
+			$event->fee = Money::MYR($event->fee)->formatByDecimal();
+			
+			return view('payment.create',compact('event'));	
+		} catch (Exception $e) {
+			
+			return $e->getMessage();
+		}
+		catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+			
+			return "Event seat already full.";			
+		}
 	}
+
+	public function store($id, Request $request)
+	{
+		try {
+			
+			$event = Event::where('id',$id)
+			->where('limit_register','>',0)
+			->firstOrFail();
+
+			$transaction = PaymentTransaction::create([
+	    		'event_id' => $id,
+	    		'name' => $request->name,
+		    	'contact_no' => $request->contact_no,
+		    	'email' => $request->email,
+		    	'amount' => $event->fee,
+			]);
+			
+			$transaction = PaymentTransaction::find($transaction->id);
+
+			// Convert for ipay format. Example, 1.00
+			$event->fee = Money::MYR($event->fee)->formatByDecimal();
+			$paymentRequest = new \IPay88\Payment\Request($this->merchant_key);
+	    	$data = [
+	    		'MerchantCode' => $paymentRequest->setMerchantCode($this->merchant_code),
+				'PaymentId' =>  $paymentRequest->setPaymentId($request->paymentID),
+				'RefNo' => $paymentRequest->setRefNo($transaction->order_id),
+				'Amount' => $paymentRequest->setAmount($event->fee),
+				'Currency' => $paymentRequest->setCurrency('MYR'),
+				'ProdDesc' => $paymentRequest->setProdDesc('Payment for Event '.$event->title),
+				'UserName' => $paymentRequest->setUserName($request->name),
+				'UserEmail' => $paymentRequest->setUserEmail($request->email),
+				'UserContact' => $paymentRequest->setUserContact($request->contact_no),
+				'Remark' => $paymentRequest->setRemark(''),
+				'Lang' => $paymentRequest->setLang('UTF-8'),
+				'Signature' => $paymentRequest->getSignature(),
+				'SignatureType' => $paymentRequest->setSignatureType('SHA256'),
+				'ResponseURL' => $paymentRequest->setResponseUrl(route('payment-response')),
+				'BackendURL' => $paymentRequest->setBackendUrl(route('payment-callback'))
+	    	];
+
+	    	$transaction->signature = $paymentRequest->getSignature();
+	    	$transaction->save();
+
+	    	return $paymentRequest->make($this->merchant_key, $data);
+
+		} catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+			
+			return "Event seat already full.";			
+		}
+	}
+
+	public function response(Request $request)
+    {
+    	$response = (new \IPay88\Payment\Response)->init($this->merchant_code);
+		return $response;
+    }
+
+    public function callback(Request $request)
+    {
+    	$merchantcode = $request->MerchantCode;
+		$paymentid = $request->PaymentId;
+		$refno = $request->RefNo;
+		$amount = $request->Amount;
+		$ecurrency = $request->Currency;
+		$remark = $request->Remark;
+		$transid = $request->TransId;
+		$authcode = $request->AuthCode;
+		$estatus = $request->Status;
+		$errdesc = $request->ErrDesc;
+		$signature = $request->Signature;
+		$ccname = $request->CCName;
+		$ccno = $request->CCNo;
+		$s_bankname = $request->S_bankname;
+		$s_country = $request->S_country;
+
+    	$orderLog = new Logger('payments');
+		$orderLog->pushHandler(new StreamHandler(storage_path('logs/payments.log')), Logger::INFO);
+		$orderLog->info('PaymentLog', json_encode($request->all()));
+		
+		if ($estatus==1) {
+			
+			try {
+				
+				$transaction = PaymentTransaction::where('order_id',$refno)
+				->firstOrFail();
+
+				// Deduct seats
+				Event::where('id',$transaction->id)
+				->where('limit_register','>',0)
+				->decrement('limit_register');
+
+				if (hash_equals($transaction->signature,$signature) ) {
+					
+					$transaction->status = 1;
+					$transaction->auth_code = $authcode;
+					$transaction->remarks = $remark;
+					$transaction->ipay_transaction_id = $transid;
+					$transaction->save();
+				}
+
+			} catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+				
+				return abort(404);
+			}
+		}
+
+    }
     
 }

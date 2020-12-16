@@ -150,7 +150,7 @@
             <div>
             <p>Click the link below to register our event!!</p>
               <a style="color:red" class = "btn aqua-gradient btn-rounded btn-sm my-0"
-                href ="https://ipay88.ariffazmi.me/pay">REGISTER HERE<a/> 
+                href ="{{ route('event-public.show',[$id]) }}">REGISTER HERE<a/> 
 
             </div>
             <br>

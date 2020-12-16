@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use App\Member;
+use App\User;
+use DB;
 
 class AdminController extends Controller
 {
@@ -90,16 +92,30 @@ class AdminController extends Controller
         $TotalMember = Member::all() ->count();
         $Executive = Member::where('executive', 'yes')->count();
         $notExecutive = Member::where('executive', 'no')->count();
-        return view('admin_main',compact('Executive','notExecutive','TotalMember'));
+        $budget = User::where('budget_allocate', '=', '700000')->first();
+        //DB::table('events')->count('budget');
+        $duit = $budget -> budget_allocate;
+        $total = DB::table('events')->sum('budgets');
+        $balance = $duit - $total;
+        return view('admin_main',compact('Executive','notExecutive','TotalMember','budget','balance'));
     }
 
     public function event()
     {
         //return view('admin_event');
 
-        $events = Event::all();
+        $events = Event::paginate(5);
         return view('admin_event' , compact('events'));
     }
+
+    public function member()
+    {
+        //return view('admin_event');
+
+        $members = Member::all();
+        return view('admin_member' , compact('members'));
+    }
+
 
     public function create_event()
     {
@@ -115,8 +131,33 @@ class AdminController extends Controller
         $event -> date=$request -> get('date');
         $event -> location=$request -> get('location');
         $event -> fee=$request -> get('fee');
+        
+        if ($request->hasFile('image')){
+            if ($request->file(image)->isValid()){
+                $validated = $request->validate([
+                    'name' => 'string|max:40',
+                    'image' => 'mimes:jpeg,png|max:1014',
+                ]);
+                $extension = $request->storeAs('/public', 
+                $validated['name'].".".$extension);
+                $url = 
+                Storage::url($validated['name'].".".$extension);
+                $file = File::create([
+                    'name' => $validated['name'],
+                    'url' => $url,
+                ]);
+            }
+            abortt(500, 'could not upload image :(');
+        }
+
+        $event -> limit_register=$request -> get('limit_register');
+        $event -> budgets=$request -> get('budgets');
+        $event -> regions=$request -> get('regions');
+
         $event -> save();
 
+        $events = Event::all();
+       // return view('admin_event' , compact('events'));
         return redirect() -> back();
     }
 
@@ -127,7 +168,7 @@ class AdminController extends Controller
         return view('event_show', compact('event'));
     }
 
-    public function sendEmail()
+    public function sendEmail($id)
     {
 
 
@@ -139,14 +180,60 @@ class AdminController extends Controller
         foreach ($members as $member) {
             $members['email'] = $member->email;
             $members['name'] = $member->name;
-            \Mail::send('test', [], function($message) use($member){
+            \Mail::send('test', ['id'=>$id], function($message) use($member){
                 $message->to($member->email, $member->name)
                     ->subject("testing...");
             });
+
+            $events = Event::all();
+            return view('admin_main');
         }
 
         
     }
+
+    public function event_search(Request $request)
+    {
+        
+        if($request->get('keyword') !=null)
+        {
+        $keyword = $request->get('keyword');
+        $events = Event::where('title', 'LIKE' , '%'.$keyword. '%') ->get();
+        $events = Event::where('title', 'LIKE' , '%'.$keyword. '%') ->paginate(5);
+        return view('admin_event', compact('events'));
+        }
+        else
+        {
+            $events = Event::paginate(5);
+            
+
+            return view('admin_event', compact('events'));
+
+        }
+
+        
+    }
+
+    public function member_search(Request $request)
+    {
+        
+        if($request->get('keyword') !=null)
+        {
+        $keyword = $request->get('keyword');
+        $members = Member::where('name', 'LIKE' , '%'.$keyword. '%') ->get();
+        return view('admin_member', compact('members'));
+        }
+        else
+        {
+            $members = Member::all();
+            return view('admin_member', compact('members'));
+
+        }
+
+        
+    }
+
+    
 
     public function email()
     {
