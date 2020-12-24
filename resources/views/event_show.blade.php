@@ -21,6 +21,38 @@
 
 </head>
 
+ <!-- Modal -->
+ <div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-mdb-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">...</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -55,7 +87,7 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvent" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-shapes"></i>
           <span>Events</span>
@@ -63,7 +95,7 @@
         <div id="collapseEvent" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">select</h6>
-            <a class="collapse-item " href="{{ route('admin.event') }}">Data Table</a>
+            <a class="collapse-item active" href="{{ route('admin.event') }}">Data Table</a>
             <a class="collapse-item" href="{{ route('create.event') }}">Create Event</a>
           </div>
         </div>
@@ -83,9 +115,54 @@
         </div>
       </li>
 
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+                    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-receipt"></i>
+                    <span>Payment</span>
+                    </a>
+                    <div id="collapsePayment" class="collapse" aria-labelledby="paymentUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">select</h6>
+                            <a class="collapse-item" href="{{ route('payment.lists') }}">All Status</a>
+                        </div>
+                    </div>
+                </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider">
 
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        ADD ON
+      </div>
+
+      <li class="nav-item">
+                    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                    </a>
+                    <div id="collapseMember" class="collapse" aria-labelledby="membertUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">select</h6>
+                            <a class="collapse-item" href="{{ route('admin.member') }}">Members List</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="">
+                    
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Chart</span></a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="">
+                    
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Calendar</span></a>
+                </li>
 
 
       
@@ -143,19 +220,20 @@
         <div class="container-fluid">
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">New</h1>
-<p class="mb-4">Testing Form</a>.</p>
+<h1 class="h3 mb-2 text-gray-800">Email blasting</h1>
+<!--<p class="mb-4">Testing Form</a>.</p>-->
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Event</h6>
+    <h6 class="m-0 font-weight-bold text-primary">{{ $event->title }}</h6>
   </div>
   <div class="card-body">
   <form action="" method = "">
   @csrf
  
   <!-- Default input -->
+  <!--
   <div class="form-group">
     <label>Event : {{ $event->title }}</label>
     </div>
@@ -168,11 +246,71 @@
     <div class="form-group">
     <label>Members Fee : {{ $event->fee }}</label>
     </div>
+    -->
+    <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+       
+      
+        
+        <tbody>
+      
+       
+            <tr>
+                          <td>Title</td>
+                          <td>{{ $event->title }}</td>
+                                      
+            </tr>
+            <tr>
+                          <td>Date</td>
+                          <td>{{ $event->date }}</td>
+                                      
+            </tr>
+            <tr>
+                          <td>Limit Register</td>
+                          <td>{{ $event->limit_register }}</td>
+                                      
+            </tr>
+            <tr>
+                          <td>Location</td>
+                          <td>{{ $event->location }}</td>
+                                      
+            </tr>
+            <tr>
+                          <td>Event Fee</td>
+                          <td>RM{{ ($event->fee/100) }}</td>
+                                      
+            </tr>
+            <tr>
+                          <td>Budget</td>
+                          <td>{{ $event->budgets }}</td>
+                                      
+            </tr>
+            <tr>
+                          <td>Region</td>
+                          <td>{{ $event->regions }}</td>
+                                      
+            </tr>
+            
+      
+        </tbody>
+       
+      </table>
+     
+     
+    </div>
+  </div>
     <div>
+     
+    <a class = " btn-rounded btn-sm my-0"a
+      href ="{{ route('event.email',[$event->id]) }}">SEND EMAIL</a> 
     
-    <a class = " btn-rounded btn-sm my-0"
-      href ="{{ route('event.email',[$event->id]) }}">SEND EMAIL<a/> 
-
+                        <!--
+    <form method = "GET"  
+       action = "{{ route('event.email', $event->id) }}">
+          <button class = "btn btn-primary" type="submit">SEND EMAIL</button>
+   </form>
+-->
     </div>
 
 
@@ -197,24 +335,7 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+ 
 
   <!-- Bootstrap core JavaScript-->
   <script src={{ asset('vendor/jquery/jquery.min.js') }}></script>

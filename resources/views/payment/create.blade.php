@@ -5,37 +5,7 @@
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<style>
-		h2.bg-success{
-    		padding: 15px;
-		}
-
-		.required-lbl{
-		    color: red;
-		}
-
-		label[for="billinginformation"]{
-		    display: inline;
-		    float: left;
-		    margin:0px 45px 0px 0px;
-		}
-
-		.card-expiry{
-		    padding-left: 0px;
-		}
-
-		.confirm-btn{
-		    float:right;
-		}
-
-		.bg-primary{
-		    padding: 10px;
-		}
-
-		label{
-		    margin-bottom :0px;
-		}
-	</style>
+	
 </head>
 <body>
 	<div class="container">
@@ -56,6 +26,28 @@
 	                <input id="name" name="name" type="text" placeholder="" class="form-control" required="">
 	              </div>
 	            </div>
+				
+				<div class="form-group col-md-6">
+	              <span class="required-lbl">* </span><label class="control-label" for="ksrpid">KSRP ID </label>
+	              <div class="controls">
+	                <input id="ksrp_id" name="ksrp_id" type="text" placeholder="" class="form-control" required="">
+	              </div>
+	            </div>
+				
+				
+				<div class="form-group col-md-6">
+					<label>Please select Region</label>
+						<select class="form-control" name = "region" required>
+						<option value="">Select Region</option>
+						<option value="Tengah">Tengah</option>
+						<option value="Selatan">Selatan</option>
+						<option value="Utara">Utara</option>
+						<option value="Sabah & Labuan">Sabah & Labuan</option>
+						<option value="Sarawak">Sarawak</option>
+						<option value="Pantai Timur">Pantai Timur</option>
+						</select>
+						</div>
+						
 	            
 	            <div class="form-group col-md-6">
 	              <span class="required-lbl">* </span><label class="control-label" for="emailaddress">Email Address</label>
@@ -67,7 +59,7 @@
 	            <div class="form-group col-md-6">
 	              <label class="control-label" for="phone">Phone</label>
 	              <div class="controls">
-	                <input id="contact_no" name="contact_no" type="number" placeholder="" class="form-control" required="">
+	                <input id="contact_no" name="contact_no" type="tel" placeholder="" class="form-control" required="">
 	              </div>
 	            </div>
 	            <div class="form-group col-md-6">

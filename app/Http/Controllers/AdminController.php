@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use App\Event;
 use App\Member;
 use App\User;
+use App\PaymentTransaction;
+use App\Exports\EventsExport;
+use App\Exports\PaymentTransactionsExport;
+use App\Exports\EventsExportView;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use Auth;
 
@@ -89,18 +95,25 @@ class AdminController extends Controller
 
     public function admin()
     {
-
+        $NameMember = User::pluck("name")->values()->toArray();
+        
         $TotalMember = Member::all() ->count();
         $Executive = Member::where('executive', 'yes')->count();
         $notExecutive = Member::where('executive', 'no')->count();
         //$budget = User::where('budget_allocate', '=', '700000')->first();
         $budget = Auth::user()->budget_allocate;
+        $allbudget = User::pluck("budget_allocate")->values()->toArray();
         //return $budget;
         //DB::table('events')->count('budget');
         $duit = $budget;
         $total = DB::table('events')->sum('budgets');
         $balance = $duit - $total;
-        return view('admin_main',compact('Executive','notExecutive','TotalMember','budget','balance'));
+        $newduit = [1000,2000,3000];
+        $newbulan = ["ali","aiman","aril"];
+        //return $budget;
+        //return $allbudget;
+        //return $NameMember;
+        return view('admin_main',compact('allbudget','NameMember','$memberbudget','newduit','newbulan','Executive','notExecutive','TotalMember','budget','balance'));
     }
 
     public function event()
@@ -134,7 +147,7 @@ class AdminController extends Controller
         $event -> title=$request -> get('title');
         $event -> date=$request -> get('date');
         $event -> location=$request -> get('location');
-        $event -> fee=$request -> get('fee');
+        $event->fee=($request->get('fee') * 100);
 
             if( $request->hasFile( 'image' ) ) {
                 info('hasimage'); //debug
@@ -159,31 +172,31 @@ class AdminController extends Controller
 
     public function event_show($id)
     {
-        $event = \App\Event ::find($id);
+       $event = \App\Event ::find($id);
+       
 
         return view('event_show', compact('event'));
     }
 
     public function sendEmail($id)
     {
-
-
-        //return 'ahahahaha';
-
+        $event = \App\Event ::find($id);
+        
         $members = Member::all();
-        //$input['Testing Mail Spam Ksrp'] = $this->details['subject'];
 
         foreach ($members as $member) {
             $members['email'] = $member->email;
             $members['name'] = $member->name;
-            \Mail::send('test', ['id'=>$id], function($message) use($member){
+            \Mail::send('test', $event->toArray(), function($message) use($member){
                 $message->to($member->email, $member->name)
                     ->subject("testing...");
             });
 
-            $events = Event::all();
-            return view('admin_main');
+            //return view('test', compact('event'));
+           // return redirect() -> back();
         }
+        //return redirect('event.show');
+        return redirect()->route('admin.event',['id'=>$id]);
 
         
     }
@@ -242,6 +255,28 @@ class AdminController extends Controller
        
         return view('register_form');
     }
+
+    public function exportevent() 
+    {
+        return Excel::download(new EventsExport, 'events.xlsx');
+    }
+
+    public function exporteventview() 
+    {
+        return Excel::download(new EventsExportView, 'events.xlsx');
+    }
+
+    public function exportpayment() 
+    {
+        return Excel::download(new PaymentTransactionsExport, 'payments.xlsx');
+    }
+
+    public function Chartjs(){
+        $month = array('Jan', 'Feb', 'Mar', 'Apr', 'May');
+        $data  = array(1, 2, 3, 4, 5);
+        return view('admin_chart',['Months' => $month, 'Data' => $data]);
+    }
+      
 
 
 }

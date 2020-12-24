@@ -34,7 +34,7 @@ Route::get('/event_show/{id}', 'AdminController@event_show')->name('event.show')
 
 Route::get('/sendEmail/{id}', 'AdminController@sendEmail')->name('event.email');
 
-Route::get('/email', 'AdminController@email')->name('email.test');
+Route::get('/email/{id}', 'AdminController@email')->name('email.test');
 
 Route::get('/register', 'AdminController@register')->name('email.register');
 
@@ -48,6 +48,9 @@ Route::get('/search-payment', 'PaymentController@payment_search')->name('payment
 
 Route::get('/search-member', 'AdminController@member_search')->name('member.search');
 
+Route::get('/emptystock', function () {
+    return view('payment.emptystock');
+});
 
 Route::get('/checkout','PaymentController@checkout');
 Route::post('/checkout','PaymentController@afterpayment')->name('checkout.credit-card');
@@ -69,3 +72,21 @@ Route::get('register', 'AuthController@register');
 Route::post('post-register', 'AuthController@postRegister'); 
 Route::get('dashboard', 'AuthController@dashboard'); 
 Route::get('logout', 'AuthController@logout');
+
+Route::get('checkid', 'AuthController@checkid')->name('check.id');
+
+/**
+*	generate excel document with Maatwebsite/Laravel-Excel
+*/
+
+Route::get('export-event','AdminController@exportevent')->name('export.event');
+
+Route::get('export-payment','AdminController@exportpayment')->name('export.payment');
+
+Route::get('export-event-view','AdminController@exporteventview')->name('export.event.view');
+
+/**
+*	generate excel document with Maatwebsite/Laravel-Excel
+*/
+
+Route::get('/chart','AdminController@Chartjs')->name('admin.chart');

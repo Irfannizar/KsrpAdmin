@@ -10,14 +10,18 @@
     "require": {
         "php": "^7.2.5|^8.0",
         "cknow/laravel-money": "^5.0",
+        "consoletvs/charts": "^6.5",
         "doctrine/dbal": "^2.10",
         "fadlisaad/ipay88": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "fx3costa/laravelchartjs": "^2.8",
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
         "karyamedia/ipay88": "dev-master",
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
+        "maatwebsite/excel": "^3.1",
+        "phpoffice/phpspreadsheet": "^1.15",
         "stripe/stripe-php": "^7.62",
         "vinkla/hashids": "^8.1"
     },

@@ -47,7 +47,7 @@ class PaymentController extends Controller
         if($request->get('keyword') !=null)
         {
         $keyword = $request->get('keyword');
-        $payments = PaymentTransaction::where('name', 'LIKE' , '%'.$keyword. '%') ->get();
+        $payments = PaymentTransaction::where('ksrp_id', 'LIKE' , '%'.$keyword. '%') ->get();
         return view('payment.index', compact('payments'));
         }
         else
@@ -59,7 +59,8 @@ class PaymentController extends Controller
 
         
     }
-
+	
+	
 	public function create($id,Request $request)
 	{
 		try {
@@ -78,7 +79,8 @@ class PaymentController extends Controller
 		}
 		catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 			
-			return "Event seat already full.";			
+			return view('payment.emptystock');
+			//return "Event seat already full.";			
 		}
 	}
 
@@ -92,7 +94,9 @@ class PaymentController extends Controller
 
 			$transaction = PaymentTransaction::create([
 	    		'event_id' => $id,
-	    		'name' => $request->name,
+				'name' => $request->name,
+				'ksrp_id' => $request->ksrp_id,
+				'region' => $request->region,
 		    	'contact_no' => $request->contact_no,
 		    	'email' => $request->email,
 		    	'amount' => $event->fee,
@@ -134,7 +138,21 @@ class PaymentController extends Controller
 
 	public function response(Request $request)
     {
-    	$response = (new \IPay88\Payment\Response)->init($this->merchant_code);
+		$response = (new \IPay88\Payment\Response)->init($this->merchant_code);
+		//for testing on update stock only
+		$order_id = $response['data']['RefNo'];
+
+      $transaction = PaymentTransaction::where('order_id',$order_id)
+      ->select(['event_id'])
+      ->take(1)
+      ->get();
+
+      $event = Event::where('id',$transaction[0]->event_id)
+    ->where('limit_register','>',0)
+    ->firstOrFail();
+
+    $event->limit_register = ($event->limit_register-1);
+    $event->save();
 		return $response;
     }
 
@@ -160,32 +178,33 @@ class PaymentController extends Controller
 		$orderLog->pushHandler(new StreamHandler(storage_path('logs/payments.log')), Logger::INFO);
 		$orderLog->info('PaymentLog', json_encode($request->all()));
 		
-		if ($estatus==1) {
+
+		// if ($estatus==1) {
 			
-			try {
+		// 	try {
 				
-				$transaction = PaymentTransaction::where('order_id',$refno)
-				->firstOrFail();
+		// 		$transaction = PaymentTransaction::where('order_id',$refno)
+		// 		->firstOrFail();
 
-				// Deduct seats
-				Event::where('id',$transaction->id)
-				->where('limit_register','>',0)
-				->decrement('limit_register');
+		// 		// Deduct seats
+		// 		Event::where('id',$transaction->id)
+		// 		->where('limit_register','>',0)
+		// 		->decrement('limit_register');
 
-				if (hash_equals($transaction->signature,$signature) ) {
+		// 		if (hash_equals($transaction->signature,$signature) ) {
 					
-					$transaction->status = 1;
-					$transaction->auth_code = $authcode;
-					$transaction->remarks = $remark;
-					$transaction->ipay_transaction_id = $transid;
-					$transaction->save();
-				}
+		// 			$transaction->status = 1;
+		// 			$transaction->auth_code = $authcode;
+		// 			$transaction->remarks = $remark;
+		// 			$transaction->ipay_transaction_id = $transid;
+		// 			$transaction->save();
+		// 		}
 
-			} catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+		// 	} catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 				
-				return abort(404);
-			}
-		}
+		// 		return abort(404);
+		// 	}
+		// }
 
     }
     

@@ -165,59 +165,30 @@
                             </li>
                         </ul>
                     </nav>
-                    <!-- End of Topbar -->
                     <!-- Begin Page Content -->
-                    <div class="container-fluid">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">List of Payment</h1>
+            <p class="mb-4">Data will be clean every 3 month to avoid low performance</a>.</p>
+
+
+
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Payment Listing</h6>
+                            <a href="{{ route('export.payment')}}" class = "btn btn-sm btn-primary">Export Excel</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>EVENT</th>
-                                                <th>NAME</th>
-                                                <!--<th>ORDER ID</th>-->
-                                                <th>USER DETAILS</th>
-                                                <!--<th>IPAY TRANSACTION ID</th>-->
-                                                <th>STATUS</th>
-                                                <th>AMOUNT</th>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($payments as $payment)
-                                            <tr>
-                                                <td>{{ $payment->id }}</td>
-                                                <td>{{ $payment->event->title }}</td>
-                                                <td>{{ $payment->name }}</td>
-                                                <!--<td>{{ $payment->order_id }}</td>-->
-                                                <td>
-                                                    <ul>
-                                                       
-                                                        <li>Email: {{ $payment->email }}</li>
-                                                        <li>Phone: {{ $payment->contact_no }}</li>
-                                                    </ul>
-                                                </td>
-                                                <!--<td>{{ $payment->ipay_transaction_id }}</td>-->
-                                                <td>{{ $payment->status }}</td>
-                                                <td>{{ $payment->amount }}</td>
-                                                
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                @include('payment_table', $payments)
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.container-fluid -->
                 </div>
-                <!-- End of Main Content -->f
+                <!-- End of Main Content -->
                 <!-- Footer -->
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">

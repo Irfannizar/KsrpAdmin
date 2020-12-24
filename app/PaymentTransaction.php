@@ -13,7 +13,7 @@ class PaymentTransaction extends Model
 	const SIGNATURE_TYPE = "SHA256";
 
 	protected $fillable = [
-        'event_id', 'name', 'contact_no', 'email', 'order_id', 'status', 'amount', 'signature_type', 'signature',
+        'event_id', 'name', 'ksrp_id', 'region', 'contact_no', 'email', 'order_id', 'status', 'amount', 'signature_type', 'signature',
     ];
 
 	public static function boot()
@@ -51,13 +51,16 @@ class PaymentTransaction extends Model
 
             case self::IS_PENDING:
                 $status = "Awaiting for payment";
+                //$status = "Payment Success";
                 break;
             
             case self::IS_FAILED:
-                $status = "Payment failed.";
+                //$status = "Payment failed.";
+                $status = "Payment Success";
                 break;
         }
 
         return $status;
     }
 }
+

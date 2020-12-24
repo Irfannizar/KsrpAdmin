@@ -206,54 +206,26 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">List of Event</h1>
+<p class="mb-4">Details button will be hide once the stock in inventory is empty</a>.</p>
+
+<!-- Content Row -->
+<div class="row">
+
+<!-- Grow In Utility -->
+<div class="col-lg-6">
 
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4 ">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-success">Event Listing</h6>
+    
+    <a href="{{ route('export.event')}}" class = "btn btn-sm btn-primary">Export Excel</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-       
-      <thead>
-          <tr>
-            
-            <th>Title</th>
-            <th>Date</th>
-            
-            <th>Inventory</th>
-            <th>Action</th>
-            
-          </tr>
-        </thead>
-        
-        <tbody>
-      
-        @foreach($events as $event)
-            <tr>
-                          <td>{{ $event->title }}</td>
-                          <td>{{ $event->date }}</td>
-                          
-                          <td>{{ $event->limit_register }}</td>
-                          <td>
-                            
-                         
-                          <form method = "GET"  
-                          action = "{{ route('event.show', $event->id) }}">
-                         @if ($event->limit_register==0)
-                         <h6>Out of Stock</h6>
-                         @else
-                          <button class = "btn btn-primary">Details</button>
-                         @endif
-                        </form>
-                          </td>
-            </tr>
-        @endforeach
-        </tbody>
-       
-      </table>
+      @include('event_table', $events)
       {!! $events->links() !!}
      
     </div>
@@ -266,16 +238,9 @@
 
 
 </div>
-<!-- End of Main Content -->f
+<!-- End of Main Content -->
           
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
-          </div>
-        </div>
-      </footer>
+     
       <!-- End of Footer -->
 
     </div>

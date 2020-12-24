@@ -12,7 +12,22 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <style>
 
-    
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 3px solid #dddddd;
+  text-align: left;
+  padding: 2px;
+}
+
+tr:nth-child(even) {
+  background-color: #FFFF00;
+  text-align: left;
+}
 
     .invoice-box {
         max-width: 800px;
@@ -118,83 +133,61 @@
                       
                             
                             
-           <img src="" style="width:100%; max-width:300px;">
+          
           </td>
          
           <div class = "banner">
-          <img class = "center" src = "https://drive.google.com/uc?id=1LEh6P38SPwace_efMLyH8dWJnY6j6Vmr" >
+          <img class = "center" src = "https://drive.google.com/uc?id=1pku0TgpTDCvZYUoz0O6gXn_bTX45bW3R" width = "738" height = "265" shadow >
           </div>
-          
-          <div class="hero-image">
-            <div class="row">
-              <div class="col-sm-3">
-              <i class="fa fa-calendar">10 November 2020</i>
-              
-              </div>
-              <div class="">
-              <i class="">KLCC Tower, Kuala Lumpur</i>
-              </div>
-    
-  </div>
-            <br>
-            <br>    
-          <div class="hero-text">
-            <h1 style="font-family:'Courier New'">You're invited to KSRP Tour 2021</h1>
-            <p>Hi there,</p>
-            <p>We'd love you to join us in Kuala Lumpur, November 21-27, for KSRP TOUR 2021</p>
-            <p>You can meet with and learn from the minds behind KSRP Region.</p>
-            <p>Get one-on-one time with the experts, and boost your technical skills</p>
-            &nbsp
-            &nbsp
-
-            <div>
-            <p>Click the link below to register our event!!</p>
-              <a style="color:red" class = "btn aqua-gradient btn-rounded btn-sm my-0"
-                href ="{{ route('event-public.show',[$id]) }}">REGISTER HERE<a/> 
-
             </div>
             <br>
+            <br>    
+           
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>KSRP Price(RM)</th>
+                    <th>Region</th>
+                </tr>
+                <tr>
+                    <td>{{ $date }}</td>
+                    <td>{{ $title }}</td>
+                    <td>{{ ($fee/100) }}</td>
+                    <td>{{ $regions }}</td>
+                </tr>
+            </table>
 
-            <p>To thank you for being part of the KSRP community, we're offering you a</p>
-            <p>special 2021 Sunway Lagoon Voucher with only RM 30/head when you register by</p>
-            <p>Monday, December 31.</p>
-            &nbsp
-            &nbsp
+          <div class="hero-text">
+            <h1 style="font-family:'Courier New'"></h1>
+            <p> Dear KSRP Members,</p>
+            <p>We'd love you to join us in {{ $regions }}, {{ $date }}, for {{ $title }}</p>
+            <div>
+            <p>If you interested, please click on the link below</p>
+             
+              <a style="color:blue" class = ""
+                href ="{{ route('event-public.show',[$id]) }}">Register Here<a/> 
+           
+             <!--
+            <a style="color:blue" class = ""
+                href ="{{ route('check.id',[$id]) }}">Register Here<a/> 
+             -->
+            </div>
+            <br>
             <p>
-            Looking forward to seing you there,
+            Looking forward to see you there,
             </p>
             <p>
-            KSRP Sekretariat<br>
-            Muhammad Irfan Nizar bin Anuar</p>
-
+            KSRP Sekretariat</p>
           </div>
         </div>
-                            
-         
+
           </tr>
           </table>
           </td>
             </tr>
             
-            <tr class="information">
-                <td colspan="2">
-                    <table>
-                        <tr>
-                            
-                           
-                            <td style="color:grey">
-                          <br>
-                          <br>
-                          <br>
-
-                                KSRP Concourse Level, Tower 1 KLCC, Kuala Lumpur<br>
-                                
-                            </td>
-                          
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+          
             
           
            
@@ -205,6 +198,6 @@
 </body>
     
 
-
+<script> document.write(new Date().toLocaleDateString()); </script>
 
 </html>

@@ -67,6 +67,8 @@ class AuthController extends Controller
       return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
+        'budget_allocate' => $data['budget_allocate'],
+        //'password' => Hash::make($data['password'])
         'password' => Hash::make($data['password'])
       ]);
     }
@@ -75,5 +77,24 @@ class AuthController extends Controller
         Session::flush();
         Auth::logout();
         return Redirect('login');
+    }
+
+    public function checkid(){
+      return view('payment.id_check');
+    }
+
+    public function postCheck(Request $request)
+    {
+        request()->validate([
+        
+        ]);
+ 
+        $credentials = $request->only('email');
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            
+            return redirect()->intended("admin");
+        }
+        return Redirect::to("login")->withSuccess('Oppes! You have entered invalid credentials');
     }
 }

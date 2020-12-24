@@ -38,7 +38,7 @@
                 <div class="p-5">
                   <div class="text-center">
                   <img class="rounded-circle" style="width:120px;height:120px;" src="/img/KSRP.jpg" alt="">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!<br>KSRP Sekretariat</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!<br>KSRP Seketariat</h1>
                   </div>
                   <form action="{{url('post-login')}}" method="POST" id="logForm" class="user" >
                   {{ csrf_field() }} 

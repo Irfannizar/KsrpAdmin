@@ -11,14 +11,25 @@
 
   <title>KSRP Admin Management System</title>
 
-  
+  <script src="http://www.chartjs.org/dist/2.7.3/Chart.bundle.js"></script>
+  <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <link href="img" rel="stylesheet" type="text/css">
   
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  
 
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
 </head>
+
+
 
 <body id="page-top" class>
 
@@ -241,7 +252,7 @@
                 </div>
               </div>
             </div>
-
+            
             <!-- Earnings (Annual) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card shadow h-100 py-2">
@@ -278,118 +289,60 @@
 
 
           </div>
-            <!--
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">KSRP Members</div>
-                      <div class="h5 mb-0 text-gray-600">{{$TotalMember}} Members</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-users fa-2x text-gray-600"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
--->
+           
 
            
           <div class="row">
 
-            <div class="col-lg-6">
+<!-- Area Chart -->
+<div class="col-xl-8 col-lg-7">
+  <div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+      
+    </div>
+    <!-- Card Body -->
+    <div class="card-body">
+      <div class="chart-area">
+        <canvas id="myBarChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-            <div class="card shadow">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Admin Details</h6>
-                </div>
-                <div class="card-body">
+<!-- Pie Chart -->
+<div class="col-xl-4 col-lg-5">
+  <div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+      
+    </div>
+    <!-- Card Body -->
+    <div class="card-body">
+      <img class="rounded-circle shadow " style="width:70px;height:70px;" src="/img/user1.png">
+        <br>
+          <br>
+            @auth
+              <form action="{{url('logout')}}" method="GET" id="logForm" class="user" >
+                <h1 class="h3 mb-1 text-gray-800">{{Auth::user()->name}}</h1>
+                  <button type="submit" class="btn btn-warning pull-right">Logout</button>
+                    <div class="clearfix"></div>
+            @endauth    
+          </div>
+    </div>
+  </div>
+</div>
+</div>
 
                 
-                <img class="rounded-circle shadow " style="width:70px;height:70px;" src="/img/test.jpg">
-                <br>
-                <br>
-                @auth
-                <form action="{{url('logout')}}" method="GET" id="logForm" class="user" >
-                <h1 class="h3 mb-1 text-gray-800">{{Auth::user()->name}}</h1>
-                    <!--
-                    <p class="mb-2">Name : Muhammad Irfan Nizar bin Anuar</p>
-                    <p class="mb-2">Position : Intern Staff</p>
-                    <p class="mb-2">Duration : 1 September - 15 January</p>
-                    <p class="mb-2">Location : KSRP Concourse Level, Tower 1 KLCC Tower, Kuala Lumpur</p>
-                    -->
-                    <button type="submit" class="btn btn-warning pull-right">Logout</button>
-                    <div class="clearfix"></div>
-                    @endauth
-                    
 
-                    
-                  
-                     
-                  
-                </div>
-                </div>
-
-              
-
-            </div>
-
+               
+             
+             
+             
             
-
-             
-
-              <!-- Collapsable Card Example -->
-             
-            </div>
-
-          </div>
-
-          
-
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
-
-<!-- Page Heading -->
-
-
-<!-- 
-  <div class="row">
-
-  <div class="col-lg-6">
-
-    
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Admin Details</h6>
-      </div>
-      <div class="card-body">
-
-      
-      <img class="rounded-circle" style="width:70px;height:70px;" src="/img/test.jpg">
-      <br>
-      <br>
-      
-      <h1 class="h3 mb-1 text-gray-800">KSRP Sekretariat</h1>
-          <p class="mb-2">Name : Muhammad Irfan Nizar bin Anuar</p>
-          <p class="mb-2">Position : Intern Staff</p>
-          <p class="mb-2">Duration : 1 September - 15 January</p>
-          <p class="mb-2">Location : KSRP Concourse Level, Tower 1 KLCC Tower, Kuala Lumpur</p>
-          <button data-toggle="modal" data-target="#logoutModal" type="" class="btn btn-warning pull-right">Logout</button>
-          <div class="clearfix"></div>
-
-          
-         
-            <p class="mb-4">Kelab Sukan & Rekreasi PETRONAS</a>.</p>
-        
-      </div>
-    </div> -->
-
 
 
    
@@ -398,6 +351,9 @@
       
 
   <!-- Bootstrap core JavaScript-->
+
+  
+
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -411,10 +367,98 @@
   <script src="vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
+  <!-- <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
-  <script src="js/demo/chart-bar-demo.js"></script>
+  <script src="js/chart-bar-demo.js"></script> -->
 
 </body>
 
 </html>
+
+<script>
+// Bar Chart Example
+var obj1 = <?php echo json_encode($NameMember ?? '', true) ?>;
+var obj2 = <?php echo json_encode($allbudget ?? '', true) ?>;
+var ctx = document.getElementById("myBarChart");
+var myBarChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: obj1,
+							datasets: [{
+                
+								label: obj2,
+								data: obj2,
+								backgroundColor: "#0000FF",
+								borderColor: "#FF0000",
+								fill: false,
+						      // notice the gap in the data and the spanGaps: true
+						      
+						  
+              }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 10,
+        right: 25,
+        top: 25,
+        bottom: 0
+      }
+    },
+    scales: {
+      xAxes: [{
+        gridLines: {
+          display: false,
+          drawBorder: false
+        },
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          //max: 15000,
+         
+          padding: 10,
+          // Include a dollar sign in the ticks
+          callback: function(value, index, values) {
+            return 'RM' + value;
+          }
+        },
+        gridLines: {
+          color: "rgb(234, 236, 244)",
+          zeroLineColor: "rgb(234, 236, 244)",
+          drawBorder: false,
+          borderDash: [2],
+          zeroLineBorderDash: [2]
+        }
+      }],
+    },
+    legend: {
+      display: false
+    },
+    tooltips: {
+      titleMarginBottom: 10,
+      titleFontColor: '#6e707e',
+      titleFontSize: 14,
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+      callbacks: {
+        label: function(tooltipItem, chart) {
+          
+          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] || '';
+          return datasetLabel;
+        }
+      }
+    }
+  }
+})
+
+
+  
+</script>
