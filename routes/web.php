@@ -90,3 +90,5 @@ Route::get('export-event-view','AdminController@exporteventview')->name('export.
 */
 
 Route::get('/chart','AdminController@Chartjs')->name('admin.chart');
+
+Route::get('/calendar','CalendarController@calendar')->name('admin.calendar');

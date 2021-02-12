@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
         
 
         /*
@@ -230,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
 
     ],
 

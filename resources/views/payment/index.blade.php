@@ -101,18 +101,18 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="">
-              
-              <i class="fas fa-chart-bar"></i>
-              <span>Chart</span></a>
-          </li>
+                  <a class="nav-link" href="{{ route('admin.main') }}">
+                    
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Chart</span></a>
+                </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              
-              <i class="fas fa-calendar-week"></i>
-              <span>Calendar</span></a>
-          </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ route('admin.calendar') }}">
+                    
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Calendar</span></a>
+                </li>
 
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">

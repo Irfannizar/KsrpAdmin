@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1db3d50bdb4f4617872e7c5d7e11067",
+    "content-hash": "1e2b17b76cbab383dcbcd99c158c9bf8",
     "packages": [
+        {
+            "name": "acaronlex/laravel-calendar",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acaronlex/laravel-calendar.git",
+                "reference": "a1c4eb597a9922688dfb8c8cd2f1182ecda65923"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acaronlex/laravel-calendar/zipball/a1c4eb597a9922688dfb8c8cd2f1182ecda65923",
+                "reference": "a1c4eb597a9922688dfb8c8cd2f1182ecda65923",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~7.0|~8.0",
+                "php": ">=7.2.5"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Acaronlex\\LaravelCalendar\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Calendar": "Acaronlex\\LaravelCalendar\\Facades\\Calendar"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Acaronlex\\LaravelCalendar\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "acaronlex",
+                    "email": "acaronlex@outlook.com"
+                }
+            ],
+            "description": "Laravel helper for FullCalendar.io",
+            "time": "2020-12-20T17:13:31+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.2",
@@ -2083,6 +2130,68 @@
                 "vector"
             ],
             "time": "2020-08-28T17:11:00+00:00"
+        },
+        {
+            "name": "mckenziearts/laravel-notify",
+            "version": "v2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mckenziearts/laravel-notify.git",
+                "reference": "1511bb97cf9ce4c3562caf6f3785eb55bad822a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mckenziearts/laravel-notify/zipball/1511bb97cf9ce4c3562caf6f3785eb55bad822a6",
+                "reference": "1511bb97cf9ce4c3562caf6f3785eb55bad822a6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^7.0|^8.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mckenziearts\\Notify\\LaravelNotifyServiceProvider"
+                    ],
+                    "aliases": {
+                        "Notify": "Mckenziearts\\Notify\\Facades\\LaravelNotify"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mckenziearts\\Notify\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arthur Monney",
+                    "email": "monneylobe@gmail.com",
+                    "homepage": "https://twitter.com/MonneyArthur",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Flexible flash notifications for Laravel",
+            "homepage": "https://github.com/mckenziearts/laravel-notify",
+            "keywords": [
+                "laravel",
+                "laravel-notify",
+                "notification"
+            ],
+            "time": "2020-09-12T06:14:18+00:00"
         },
         {
             "name": "moneyphp/money",

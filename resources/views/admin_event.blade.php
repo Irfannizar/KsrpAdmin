@@ -17,7 +17,7 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+  @notifyCss
 </head>
 
 <body id="page-top">
@@ -119,14 +119,14 @@
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link" href="">
+                  <a class="nav-link" href="{{ route('admin.main') }}">
                     
                     <i class="fas fa-chart-bar"></i>
                     <span>Chart</span></a>
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link" href="">
+                  <a class="nav-link" href="{{ route('admin.calendar') }}">
                     
                     <i class="fas fa-calendar-week"></i>
                     <span>Calendar</span></a>
@@ -194,7 +194,27 @@
               </div>
             </li>
 
-            
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              @auth
+              
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
+                <img class="img-profile rounded-circle" src="img/ksrp.jpg">
+              </a>
+             
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                
+                
+                <a class="dropdown-item" href="{{url('logout')}}" data-toggle="" data-target="">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+              
+              @endauth  
+            </li>
 
             
 
@@ -290,7 +310,8 @@
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
   <script src="js/demo/chart-bar-demo.js"></script>
-
+  @notifyJs
+  <x:notify-messages />
 </body>
 
 </html>

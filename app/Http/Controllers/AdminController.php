@@ -17,93 +17,17 @@ use Auth;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
     public function admin()
     {
         $NameMember = User::pluck("name")->values()->toArray();
-        
+        $events = Event::paginate(2);
         $TotalMember = Member::all() ->count();
         $Executive = Member::where('executive', 'yes')->count();
         $notExecutive = Member::where('executive', 'no')->count();
         //$budget = User::where('budget_allocate', '=', '700000')->first();
         $budget = Auth::user()->budget_allocate;
         $allbudget = User::pluck("budget_allocate")->values()->toArray();
-        //return $budget;
         //DB::table('events')->count('budget');
         $duit = $budget;
         $total = DB::table('events')->sum('budgets');
@@ -113,7 +37,11 @@ class AdminController extends Controller
         //return $budget;
         //return $allbudget;
         //return $NameMember;
-        return view('admin_main',compact('allbudget','NameMember','$memberbudget','newduit','newbulan','Executive','notExecutive','TotalMember','budget','balance'));
+        $totalbudget = DB::table('users')->sum('budget_allocate');
+        $remain = $totalbudget - $total;
+        //return $remain;
+        
+        return view('admin_main',compact('events','total','totalbudget','remain','allbudget','NameMember','$memberbudget','newduit','newbulan','Executive','notExecutive','TotalMember','budget','balance'));
     }
 
     public function event()
@@ -121,6 +49,8 @@ class AdminController extends Controller
         //return view('admin_event');
 
         $events = Event::paginate(9);
+        //$events = Event::with('user');
+        //notify()->success('Your event has been created!');
         return view('admin_event' , compact('events'));
         //$events = Event::where('region', Auth::user()->region) ->paginate(5);
     }
@@ -146,6 +76,7 @@ class AdminController extends Controller
         $event = new Event();
         $event -> title=$request -> get('title');
         $event -> date=$request -> get('date');
+        $event -> end_date=$request -> get('end_date');
         $event -> location=$request -> get('location');
         $event->fee=($request->get('fee') * 100);
 
@@ -167,6 +98,7 @@ class AdminController extends Controller
 
         $events = Event::all();
        // return view('admin_event' , compact('events'));
+       notify()->success('Your event has been created!');
         return redirect() -> back();
     }
 
@@ -196,6 +128,7 @@ class AdminController extends Controller
            // return redirect() -> back();
         }
         //return redirect('event.show');
+        notify()->success('Your email has been sent!');
         return redirect()->route('admin.event',['id'=>$id]);
 
         

@@ -128,19 +128,19 @@
               </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              
-              <i class="fas fa-chart-bar"></i>
-              <span>Chart</span></a>
-          </li>
+         <li class="nav-item active">
+                  <a class="nav-link" href="{{ route('admin.main') }}">
+                    
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Chart</span></a>
+                </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              
-              <i class="fas fa-calendar-week"></i>
-              <span>Calendar</span></a>
-          </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ route('admin.calendar') }}">
+                    
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Calendar</span></a>
+                </li>
 
 
 
@@ -204,12 +204,94 @@
               </div>
             </li>
 
-            
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              @auth
+              
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
+                <img class="img-profile rounded-circle" src="img/ksrp.jpg">
+              </a>
+             
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                
+                
+                <a class="dropdown-item" href="{{url('logout')}}" data-toggle="" data-target="">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+              
+              @endauth  
+            </li>
 
         </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
+      
+        <div class="row">
+        <div class="col-lg-6">
+        <div class="">
+                  <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img\undraw_Charts_re_5qe9.svg" alt="">
+                  
+                  </div>
+                </div>
+
+                </div>
+
+                <div class="col-lg-5">
+
+              <div class="card shadow ">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">All Activities</h6>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+       
+       <thead>
+           <tr>
+             
+           <th>Region</th>
+             <th>Title</th>
+             <th>Date</th>
+             <th>Location</th>
+           
+             
+           </tr>
+         </thead>
+         
+         <tbody>
+       
+         @foreach($events as $event)
+             <tr>
+             <td>{{ $event->regions }}</td>
+                           <td>{{ $event->title }}</td>
+                           <td>{{ $event->date }}</td>
+                           <td>{{ $event->location }}</td>
+                         
+             </tr>
+         @endforeach
+         </tbody>
+        
+       </table>
+                  {!! $events->links() !!}
+                
+                </div>
+              </div>
+
+            </div>
+                </div>
+                </div>
+                </div>
+                
+               
+            
+        
+        
         <div class="container-fluid">
 
           <!-- Page Heading -->
@@ -292,20 +374,21 @@
            
 
            
-          <div class="row">
+      <!-- Content Row -->
+      <div class="row">
 
 <!-- Area Chart -->
 <div class="col-xl-8 col-lg-7">
   <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+      <h6 class="m-0 font-weight-bold text-primary">Regions Budgets Overview</h6>
       
     </div>
     <!-- Card Body -->
     <div class="card-body">
-      <div class="chart-area">
-        <canvas id="myBarChart"></canvas>
+      <div class="chart-area"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+        <canvas id="myBarChart" width="667" height="320" class="chartjs-render-monitor" style="display: block; width: 667px; height: 320px;"></canvas>
       </div>
     </div>
   </div>
@@ -316,21 +399,23 @@
   <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-      
+      <h6 class="m-0 font-weight-bold text-primary">Budget Utilization</h6>
+     
     </div>
     <!-- Card Body -->
     <div class="card-body">
-      <img class="rounded-circle shadow " style="width:70px;height:70px;" src="/img/user1.png">
-        <br>
-          <br>
-            @auth
-              <form action="{{url('logout')}}" method="GET" id="logForm" class="user" >
-                <h1 class="h3 mb-1 text-gray-800">{{Auth::user()->name}}</h1>
-                  <button type="submit" class="btn btn-warning pull-right">Logout</button>
-                    <div class="clearfix"></div>
-            @endauth    
-          </div>
+      <div class="chart-pie pt-4 pb-2"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+        <canvas id="myPieChart" width="301" height="245" class="chartjs-render-monitor" style="display: block; width: 301px; height: 245px;"></canvas>
+      </div>
+      <div class="mt-4 text-center small">
+        <span class="mr-2">
+          <i class="fas fa-circle text-primary"></i> Utilized
+        </span>
+        <span class="mr-2">
+          <i class="fas fa-circle text-success"></i> Remaining Budgets
+        </span>
+        
+      </div>
     </div>
   </div>
 </div>
@@ -338,6 +423,17 @@
 
                 
 
+         
+          
+         
+<br>
+<br>
+<br>
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
                
              
              
@@ -381,14 +477,14 @@ var obj1 = <?php echo json_encode($NameMember ?? '', true) ?>;
 var obj2 = <?php echo json_encode($allbudget ?? '', true) ?>;
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: obj1,
 							datasets: [{
                 
 								label: obj2,
 								data: obj2,
-								backgroundColor: "#0000FF",
+								backgroundColor: ['#4e73df','#1cc88a', '#36b9cc','#f6c23e','#4e73df','#1cc88a'],
 								borderColor: "#FF0000",
 								fill: false,
 						      // notice the gap in the data and the spanGaps: true
@@ -418,7 +514,7 @@ var myBarChart = new Chart(ctx, {
           min: 0,
           //max: 15000,
          
-          padding: 10,
+          padding: 5,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
             return 'RM' + value;
@@ -426,7 +522,7 @@ var myBarChart = new Chart(ctx, {
         },
         gridLines: {
           color: "rgb(234, 236, 244)",
-          zeroLineColor: "rgb(234, 236, 244)",
+          zeroLineColor: "rgb(234, 243, 244)",
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
@@ -458,7 +554,42 @@ var myBarChart = new Chart(ctx, {
     }
   }
 })
+</script>
 
-
-  
+<script>
+// Pie Chart Example
+var obj1 = <?php echo json_encode($NameMember ?? '', true) ?>;
+var obj2 = <?php echo json_encode($allbudget ?? '', true) ?>;
+var obj3 = <?php echo json_encode($total ?? '', true) ?>;
+var obj4 = <?php echo json_encode($remain ?? '', true) ?>;
+var ctx = document.getElementById("myPieChart");
+var myPieChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ["Utilized", "Remaining budgets"],
+    datasets: [{
+      data: [obj3, obj4],
+      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      hoverBorderColor: "rgba(234, 236, 244, 1)",
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    tooltips: {
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+    },
+    legend: {
+      display: false
+    },
+    cutoutPercentage: 70,
+  },
+});
 </script>
